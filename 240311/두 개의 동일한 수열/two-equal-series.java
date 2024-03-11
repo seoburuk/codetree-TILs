@@ -1,25 +1,29 @@
-import java.util.Scanner;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        // 여기에 코드를 작성해주세요.
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        int arr[] = new int[n];
-        int arr2[] = new int[n];
-        for(int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
+        int[] arrA = new int[n];
+        int[] arrB = new int[n];
+
+        // 수열 A 입력 받기
+        for (int i = 0; i < n; i++) {
+            arrA[i] = sc.nextInt();
         }
-        for(int i = 0; i < n; i++) {
-            arr[i] = sc.nextInt();
+
+        // 수열 B 입력 받기
+        for (int i = 0; i < n; i++) {
+            arrB[i] = sc.nextInt();
         }
 
-        Arrays.sort(arr);
-        Arrays.sort(arr2);
+        // 두 수열 정렬
+        Arrays.sort(arrA);
+        Arrays.sort(arrB);
 
-        String result = Arrays.eqaul(arr, arr2) ? "Yes": "No";
-        System.out.print(result);
-
+        // 두 수열이 같은지 판단
+        String result = Arrays.equals(arrA, arrB) ? "Yes" : "No";
+        System.out.println(result);
     }
 }
