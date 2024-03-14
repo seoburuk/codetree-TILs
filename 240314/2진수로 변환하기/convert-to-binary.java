@@ -9,7 +9,7 @@ public class Main {
         int cnt = 0;
 
         while(true) {
-            if(n < 2) {
+            if(n == 1) {
                 digits[cnt++] = n;
                 break;
             } 
