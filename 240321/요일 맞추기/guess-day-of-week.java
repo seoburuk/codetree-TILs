@@ -13,33 +13,32 @@ public class Main {
         // Array to store days in each month
         int[] daysOfMonths = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-        // Calculate total days from January 1st to the given date
-        int totalDays = d2 - 1; // Excluding the ending date
-        for (int i = 1; i < m2; i++) {
-            totalDays += daysOfMonths[i - 1];
+        // Calculate total days from starting date to ending date
+        int total = d2 - d1 + 1;
+        if(m1 < m2) {
+            for(int i = m1; i < m2; i++) {
+                total += daysOfMonths[i - 1];
+            }
+        } else {
+            for(int i = m2; i < m1; i++) {
+                total -= daysOfMonths[i - 1];
+            }
         }
 
-        // If starting month is after ending month in the same year
-        if (m1 > m2) {
-            // Adjust total days to consider the starting date in the next year
-            totalDays += 365; // Non-leap year
-        }
-        // Adjust total days to consider the starting date
-        for (int i = 1; i < m1; i++) {
-            totalDays -= daysOfMonths[i - 1];
-        }
-        totalDays -= d1 - 1; // Excluding the starting date
-
-        // Determine the day of the week
-        int dayOfWeek = totalDays % 7;
-
-        // Adjust the day of the week according to the starting day (Monday)
-        int startingDay = 1; // Monday is the first day of the week
-        int adjustedDayOfWeek = (startingDay + dayOfWeek) % 7;
+        // Calculate the day of the week
+        total %= 7;
 
         // Map the day of the week to the corresponding name
         String[] daysOfWeek = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-        String day = daysOfWeek[adjustedDayOfWeek];
+        String day;
+
+        // Adjust the day of the week based on total
+        if(total < 0) {
+            total = -total;
+            day = daysOfWeek[7 - total];
+        } else {
+            day = daysOfWeek[total];
+        }
 
         // Output
         System.out.println(day);
