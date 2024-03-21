@@ -13,18 +13,17 @@ public class Main {
         // Array to store days in each month
         int[] daysOfMonths = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-        // Check for valid input dates
-        if (m1 < 1 || m1 > 12 || m2 < 1 || m2 > 12 || d1 < 1 || d1 > daysOfMonths[m1 - 1] || d2 < 1 || d2 > daysOfMonths[m2 - 1]) {
-            System.out.println("Invalid input dates.");
-            return;
-        }
-
         // Calculate total days from January 1st to the given date
         int totalDays = d2 - 1; // Excluding the ending date
         for (int i = 1; i < m2; i++) {
             totalDays += daysOfMonths[i - 1];
         }
 
+        // If starting month is after ending month in the same year
+        if (m1 > m2) {
+            // Adjust total days to consider the starting date in the next year
+            totalDays += 365; // Non-leap year
+        }
         // Adjust total days to consider the starting date
         for (int i = 1; i < m1; i++) {
             totalDays -= daysOfMonths[i - 1];
