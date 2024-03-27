@@ -13,20 +13,20 @@ public class Main {
         String[] M_coords = sc.nextLine().split(" ");
 
         // 좌표를 정수로 변환
-        int Ax1 = Integer.parseInt(A_coords[0]);
-        int Ay1 = Integer.parseInt(A_coords[1]);
-        int Ax2 = Integer.parseInt(A_coords[2]);
-        int Ay2 = Integer.parseInt(A_coords[3]);
+        int Ax1 = Integer.parseInt(A_coords[0])+1000;
+        int Ay1 = Integer.parseInt(A_coords[1])+1000;
+        int Ax2 = Integer.parseInt(A_coords[2])+1000;
+        int Ay2 = Integer.parseInt(A_coords[3])+1000;
 
-        int Bx1 = Integer.parseInt(B_coords[0]);
-        int By1 = Integer.parseInt(B_coords[1]);
-        int Bx2 = Integer.parseInt(B_coords[2]);
-        int By2 = Integer.parseInt(B_coords[3]);
+        int Bx1 = Integer.parseInt(B_coords[0])+1000;
+        int By1 = Integer.parseInt(B_coords[1])+1000;
+        int Bx2 = Integer.parseInt(B_coords[2])+1000;
+        int By2 = Integer.parseInt(B_coords[3])+1000;
 
-        int Mx1 = Integer.parseInt(M_coords[0]);
-        int My1 = Integer.parseInt(M_coords[1]);
-        int Mx2 = Integer.parseInt(M_coords[2]);
-        int My2 = Integer.parseInt(M_coords[3]);
+        int Mx1 = Integer.parseInt(M_coords[0])+1000;
+        int My1 = Integer.parseInt(M_coords[1])+1000;
+        int Mx2 = Integer.parseInt(M_coords[2])+1000;
+        int My2 = Integer.parseInt(M_coords[3])+1000;
 
         // A와 B가 덮이는 부분을 grid에 true로 표시
         for (int i = Ax1; i < Ax2; i++) {
