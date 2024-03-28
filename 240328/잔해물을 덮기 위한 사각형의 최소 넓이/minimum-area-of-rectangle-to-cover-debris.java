@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Main {
-    public static final int offset = 1000;
+    public static final int OFFSET = 1000;
 
     public static void main(String[] args) {
         // Initialize grid
@@ -10,16 +10,16 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         
         // Read coordinates of the first rectangle
-        int x1 = sc.nextInt() + offset;
-        int y1 = sc.nextInt() + offset;
-        int x2 = sc.nextInt() + offset;
-        int y2 = sc.nextInt() + offset;
+        int x1 = sc.nextInt() + OFFSET;
+        int y1 = sc.nextInt() + OFFSET;
+        int x2 = sc.nextInt() + OFFSET;
+        int y2 = sc.nextInt() + OFFSET;
         
         // Read coordinates of the second rectangle
-        int x3 = sc.nextInt() + offset;
-        int y3 = sc.nextInt() + offset;
-        int x4 = sc.nextInt() + offset;
-        int y4 = sc.nextInt() + offset;
+        int x3 = sc.nextInt() + OFFSET;
+        int y3 = sc.nextInt() + OFFSET;
+        int x4 = sc.nextInt() + OFFSET;
+        int y4 = sc.nextInt() + OFFSET;
 
         // Mark the area covered by the first rectangle as true
         for(int i = x1; i < x2; i++) {
@@ -31,11 +31,30 @@ public class Main {
         // Mark the area covered by the second rectangle as false
         for(int i = x3; i < x4; i++) {
             for(int j = y3; j < y4; j++) {
-                // Check if the second rectangle is within the bounds of the first rectangle
-                if (i >= x1 && i <= x2 && j >= y1 && j <= y2) {
+                if (i >= x1 && i < x2 && j >= y1 && j < y2) {
                     grid[i][j] = false;
                 }
             }
+        }
+
+        // Check if there are any remaining debris from the first rectangle
+        boolean remainingDebris = false;
+        for (int i = x1; i < x2; i++) {
+            for (int j = y1; j < y2; j++) {
+                if (grid[i][j]) {
+                    remainingDebris = true;
+                    break;
+                }
+            }
+            if (remainingDebris) {
+                break;
+            }
+        }
+
+        // If there are no remaining debris, the minimum covering rectangle area is 0
+        if (!remainingDebris) {
+            System.out.println(0);
+            return;
         }
 
         // Find the minimum rectangle area to cover the remaining debris of the first rectangle
