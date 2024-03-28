@@ -31,7 +31,10 @@ public class Main {
         // Mark the area covered by the second rectangle as false
         for(int i = x3; i < x4; i++) {
             for(int j = y3; j < y4; j++) {
-                grid[i][j] = false;
+                // Check if the second rectangle is within the bounds of the first rectangle
+                if (i >= x1 && i < x2 && j >= y1 && j < y2) {
+                    grid[i][j] = false;
+                }
             }
         }
 
