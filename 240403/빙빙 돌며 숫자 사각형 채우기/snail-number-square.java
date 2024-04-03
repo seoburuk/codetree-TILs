@@ -3,8 +3,8 @@ import java.util.Scanner;
 public class Main {
     public static int a[][] = new int[100][100];
 
-    public static boolean inRange(int x, int y, int n) {
-        return (0 <= x && x < n && 0 <= y && y < n);
+    public static boolean inRange(int x, int y, int n, int m) {
+        return (0 <= x && x < n && 0 <= y && y < m);
     }
 
     public static void main(String[] args) {
@@ -17,22 +17,24 @@ public class Main {
 
         int x = 0, y = 0;
         int dirNum = 0; // Start moving to the right (East)
+        int i = 1;
 
-        for (int i = 1; i <= n * m; i++) {
+        while (i <= n * m) {
             a[x][y] = i;
             int nx = x + dx[dirNum], ny = y + dy[dirNum];
-            if (!inRange(nx, ny, n) || a[nx][ny] != 0) {
+            if (!inRange(nx, ny, n, m) || a[nx][ny] != 0) {
                 dirNum = (dirNum + 1) % 4; // Change direction
                 nx = x + dx[dirNum];
                 ny = y + dy[dirNum];
             }
             x = nx;
             y = ny;
+            i++;
         }
 
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++)
-                System.out.print(a[i][j] + " ");
+        for (int j = 0; j < n; j++) {
+            for (int k = 0; k < m; k++)
+                System.out.print(a[j][k] + " ");
             System.out.println();
         }
     }
