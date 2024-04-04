@@ -1,40 +1,49 @@
-import java.util.Scanner;
+import java.lang.*;
+import java.util.*;
+import java.io.*;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt(); // 격자의 크기
-        int m = sc.nextInt(); // 색칠할 칸의 개수
-        int[][] grid = new int[n][n]; // 격자 초기화
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String ss = br.readLine();
 
-        // 색칠할 칸의 위치를 입력 받아서 격자에 색칠합니다.
-        for (int i = 0; i < m; i++) {
-            int r = sc.nextInt() - 1; // 행
-            int c = sc.nextInt() - 1; // 열
-            grid[r][c] = 1; // 색칠
-            // 색칠 후 편안한 상태인지 확인하여 출력합니다.
-            if (isComfortable(grid, r, c, n)) {
+        String[] s = ss.split(" ");
+        int n = Integer.valueOf(s[0]);
+        int m = Integer.valueOf(s[1]);
+        int[][] board = new int[n+1][n+1];
+
+        // 하, 좌, 상, 우
+        int[] dx = {1,0,-1,0};
+        int[] dy = {0,-1,0,1};
+
+        for(int i=0; i<m; i++) {
+
+            String st = br.readLine();
+            String[] str  = st.split(" ");
+
+            int x = Integer.valueOf(str[0]);
+            int y = Integer.valueOf(str[1]);
+            
+            board[x][y] = 1;
+
+            int cnt = 0;
+            // 방향 체크
+            for(int p=0; p<4; p++) {
+
+                int nx = x+dx[p];
+                int ny = y+dy[p];
+
+                if( 0<nx && nx<=n && 0<ny && ny<=n && board[nx][ny]==1 ) {
+                    ++cnt;
+                }
+            }
+            if(cnt == 3) {
                 System.out.println("1");
             } else {
                 System.out.println("0");
             }
-        }
-    }
 
-    // 주어진 격자와 색칠된 칸의 위치를 이용하여 해당 칸이 편안한 상태인지를 확인하는 메소드
-    public static boolean isComfortable(int[][] grid, int x, int y, int n) {
-        int[] dx = {0, 1, 0, -1}; // x 좌표 이동
-        int[] dy = {1, 0, -1, 0}; // y 좌표 이동
-        int cnt = 0; // 주변에 색칠된 칸의 개수
-        for (int i = 0; i < 4; i++) {
-            int curX = x + dx[i]; // 주변 칸의 x 좌표
-            int curY = y + dy[i]; // 주변 칸의 y 좌표
-            // 격자를 벗어나지 않고, 주변 칸이 색칠된 상태라면 개수를 증가시킵니다.
-            if (curX >= 0 && curX < n && curY >= 0 && curY < n && grid[curX][curY] == 1) {
-                cnt++;
-            }
         }
-        // 주변에 색칠된 칸이 3개 이상이면 편안한 상태입니다.
-        return cnt >= 3;
+
     }
 }
