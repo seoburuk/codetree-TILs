@@ -1,43 +1,41 @@
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
-    public static int[] dx = {0, 1, 0, -1};
-    public static int[] dy = {1, 0, -1, 0};
-    // Helper fuction to get change in x-coordinate based on direction function
-    public static int getDeltaX(char direction) {
-        if(direction == 'E') return 1; // Move right
-        if(direction == 'W') return 1; // Move left
-        return 0;
-    }
-    // Helper function to get change in y-coordinate based on direction function
-    public static int getDeltaY(char direction) {
-        if(direction == 'N') return 1; // Move up
-        if(direction == 'S') return -1; // Move down
-        return 0;
-    }
-
     public static void main(String[] args) {
-        // 여기에 코드를 작성해주세요.
         Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt(); //Number of movemnets
-        int[][] moves = new int[n][2]; // Array to store movements
-        int[][] grid = new int[2001][2001]; // Initialize grid
-        for(int i = 0; i < n; i++) {
-            char direction = sc.next().charAt(0); // Direction (N E S W)
-            int distance = sc.nextInt(); // Distance moved
-            moves[i][0] = getDeltaX(direction) * distance; // Store horizontal moved
-            moves[i][1] = getDeltaY(direction) * distance; // Store vertical moved
-        }
-        // Check if it returns starting point
-        int x = 0, y = 0; // Initaial point
-        int time = 1; // Time counter
-        for(int i = 0; i < n; i++) {
-            x += moves[i][0];
-            y += moves[i][1];
-            time += moves[i][0] + moves[i][1];
-            if(x == 0 && y == 0)
+        int N = sc.nextInt(); // Number of movements
+        int x = 0, y = 0; // Initial point
+        int[] dx = {0, 1, -1, 0}; // Change in x-coordinate based on direction
+        int[] dy = {-1, 0, 0, 1}; // Change in y-coordinate based on direction
+        HashMap<Character, Integer> dic = new HashMap<>(); // Map direction to number
+        dic.put('W', 0); dic.put('N', 1); dic.put('S', 2); dic.put('E', 3);
+        
+        int t = 0; // Time counter
+        int answer = -1; // Final answer
+        
+        sc.nextLine(); // consume newline character after reading N
+        for (int i = 0; i < N; i++) {
+            String[] info = sc.nextLine().split(" ");
+            char dir = info[0].charAt(0); // Direction
+            int dirNum = dic.get(dir); // Number corresponding to direction
+            int ds = Integer.parseInt(info[1]); // Distance
+            
+            for (int j = 0; j < ds; j++) {
+                int nx = x + dx[dirNum]; // New x-coordinate
+                int ny = y + dy[dirNum]; // New y-coordinate
+                t++; // Increment time for each step
+                x = nx; y = ny; // Update position
+                if (x == 0 && y == 0) { // Check if starting point reached
+                    answer = t;
+                    break;
+                }
+            }
+            if (answer != -1) { // If starting point reached, break outer loop
                 break;
+            }
         }
-        System.out.print(time);
+        
+        System.out.println(answer); // Print time taken or -1 if not returned to starting point
     }
 }
