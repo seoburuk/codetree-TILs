@@ -1,89 +1,106 @@
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        
-        // Read the size of the grid
-        int n = scanner.nextInt();
-        scanner.nextLine(); // Consume the newline character
-        
-        // Initialize the grid to store mirror information
-        char[][] grid = new char[n][n];
-        
+    static int dir;
+
+    // Method to determine the new direction when encountering '/' mirror
+    static int decision1(int dir) {
+        if (dir == 0) {
+            return 1; // If current direction is up, change to right
+        } else if (dir == 1) {
+            return 0; // If current direction is right, change to up
+        } else if (dir == 2) {
+            return 3; // If current direction is down, change to left
+        } else {
+            return 2; // If current direction is left, change to down
+        }
+    }
+
+    // Method to determine the new direction when encountering '\' mirror
+    static int decision2(int dir) {
+        if (dir == 0) {
+            return 3; // If current direction is up, change to left
+        } else if (dir == 1) {
+            return 2; // If current direction is right, change to down
+        } else if (dir == 2) {
+            return 1; // If current direction is down, change to right
+        } else {
+            return 0; // If current direction is left, change to up
+        }
+    }
+
+    // Method to check if the current position is within the grid
+    static boolean Check(int i, int j, int n) {
+        return 0 <= i && i < n && 0 <= j && j < n;
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int n = Integer.parseInt(br.readLine());
+
+        char[][] arr = new char[n][n];
+
         // Read the grid configuration
         for (int i = 0; i < n; i++) {
-            String row = scanner.nextLine();
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            String str = st.nextToken();
             for (int j = 0; j < n; j++) {
-                grid[i][j] = row.charAt(j);
+                char b;
+                if (str.charAt(j) == '/')
+                    b = '/';
+                else
+                    b = '\\';
+                arr[i][j] = b;
             }
         }
-        
-        // Read the starting position of the laser beam
-        int start = scanner.nextInt();
-        
-        // Calculate the starting position coordinates based on the start index
-        int x, y;
-        if (start <= n) {
-            x = 0;
-            y = start - 1;
-        } else if (start <= 2 * n) {
-            x = start - n - 1;
-            y = n - 1;
-        } else if (start <= 3 * n) {
-            x = n - 1;
-            y = 3 * n - start;
+
+        int k = Integer.parseInt(br.readLine());
+        int i;
+        int j;
+        // Determine the starting position and direction based on k
+        if (1 <= k && k <= n) {
+            dir = 0;
+            i = 0;
+            j = k - 1;
+        } else if (n + 1 <= k && k <= 2 * n) {
+            dir = 1;
+            i = k - n - 1;
+            j = n - 1;
+        } else if (2 * n + 1 <= k && k <= 3 * n) {
+            dir = 2;
+            i = n - 1;
+            j = 3 * n - k;
         } else {
-            x = 4 * n - start;
-            y = 0;
+            dir = 3;
+            i = 4 * n - k;
+            j = 0;
         }
-        
-        // Define directions: down, left, up, right (clockwise)
-        int[] dx = {1, 0, -1, 0};
-        int[] dy = {0, -1, 0, 1};
-        
-        // Initialize the number of reflections
-        int reflections = 0;
-        
-        // Simulate the path of the laser beam
-        while (x >= 0 && x < n && y >= 0 && y < n) {
-            // Check if the current cell contains a mirror
-            if (grid[x][y] == '/') {
-                // Mirror direction depends on the direction of the beam
-                if (dx[0] == 0) { // Beam moving horizontally
-                    int temp = dx[0];
-                    dx[0] = -dy[0];
-                    dy[0] = -temp;
-                } else { // Beam moving vertically
-                    int temp = dx[0];
-                    dx[0] = dy[0];
-                    dy[0] = temp;
-                }
-            } else if (grid[x][y] == '\\') {
-                // Mirror direction depends on the direction of the beam
-                if (dx[0] == 0) { // Beam moving horizontally
-                    int temp = dx[0];
-                    dx[0] = dy[0];
-                    dy[0] = temp;
-                } else { // Beam moving vertically
-                    int temp = dx[0];
-                    dx[0] = -dy[0];
-                    dy[0] = -temp;
-                }
+        // Define the dx and dy arrays for moving in different directions
+        int[] dx = new int[] {1, 0, -1, 0};
+        int[] dy = new int[] {0, -1, 0, 1};
+        int cnt = 0;
+
+        // Simulate the laser beam
+        while (true) {
+            if (arr[i][j] == '/') {
+                dir = decision1(dir);
+                cnt++;
+            } else {
+                dir = decision2(dir);
+                cnt++;
             }
-            
-            // Move the beam to the next cell
-            x += dx[0];
-            y += dy[0];
-            
-            // Increment the number of reflections
-            reflections++;
+            i += dx[dir];
+            j += dy[dir];
+
+            boolean check = Check(i, j, n);
+
+            if (!check)
+                break;
         }
-        
-        // Print the number of reflections
-        System.out.println(reflections);
-        
-        // Close the scanner
-        scanner.close();
+        System.out.print(cnt);
     }
 }
