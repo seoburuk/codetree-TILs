@@ -6,8 +6,8 @@ public class Main {
         int n = sc.nextInt();
         int m = sc.nextInt();
         
-        int[] a_go = new int[2000]; // 충분한 크기의 배열로 설정
-        int[] b_go = new int[2000]; // 충분한 크기의 배열로 설정
+        int[] a_go = new int[1000]; // 충분한 크기의 배열로 설정
+        int[] b_go = new int[1000]; // 충분한 크기의 배열로 설정
         
         int cnt_a = 0;
         for(int i = 0; i < n; i++) {
