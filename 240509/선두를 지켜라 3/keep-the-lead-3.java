@@ -9,8 +9,8 @@ public class Main {
         int M = sc.nextInt(); // Number of movements for B
         
         // Read movement information for A
-        int[] arrA = new int[1001]; // Increase the array size to accommodate potential time differences
         int totalTimeA = 0;
+        int[] arrA = new int[N * 1000];
         for(int i = 0; i < N; i++) {
             int v = sc.nextInt();
             int t = sc.nextInt();
@@ -20,8 +20,8 @@ public class Main {
         }
         
         // Read movement information for B
-        int[] arrB = new int[1001]; // Increase the array size to accommodate potential time differences
         int totalTimeB = 0;
+        int[] arrB = new int[M * 1000];
         for(int i = 0; i < M; i++) {
             int v = sc.nextInt();
             int t = sc.nextInt();
@@ -32,14 +32,12 @@ public class Main {
         
         // Count the number of times their positions change
         int changes = 0;
-        int currA = 0;
-        int currB = 0;
-        for(int i = 0; i < Math.max(totalTimeA, totalTimeB); i++) {
-            if (i < totalTimeA) currA += arrA[i];
-            if (i < totalTimeB) currB += arrB[i];
-            if (currA != currB) {
+        int prevDiff = 0;
+        for(int i = 0; i < Math.min(totalTimeA, totalTimeB); i++) {
+            int diff = arrA[i] - arrB[i];
+            if (diff != prevDiff) {
                 changes++;
-                currA = currB = 0; // Reset positions to start comparing from the next moment
+                prevDiff = diff;
             }
         }
         
