@@ -33,13 +33,15 @@ public class Main {
         // Count the number of times their positions change
         int changes = 0;
         int prevDiff = 0;
-        for(int i = 0; i < Math.min(totalTimeA, totalTimeB); i++) {
-            int diff = arrA[i] - arrB[i];
-            if (diff != prevDiff) {
-                changes++;
-                prevDiff = diff;
-            }
-        }
+int minTime = Math.min(totalTimeA, totalTimeB); // Determine the minimum valid index
+for(int i = 0; i < minTime; i++) {
+    int diff = arrA[i] - arrB[i];
+    if (diff != prevDiff) {
+        changes++;
+        prevDiff = diff;
+    }
+}
+
         
         // Output the result
         System.out.println(changes);
