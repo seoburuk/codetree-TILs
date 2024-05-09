@@ -10,7 +10,7 @@ public class Main {
         
         // Read movement information for A
         int totalTimeA = 0;
-        int[] arrA = new int[100001];
+        int[] arrA = new int[1000];
         for(int i = 0; i < N; i++) {
             int v = sc.nextInt();
             int t = sc.nextInt();
@@ -21,7 +21,7 @@ public class Main {
         
         // Read movement information for B
         int totalTimeB = 0;
-        int[] arrB = new int[100001];
+        int[] arrB = new int[1000];
         for(int i = 0; i < M; i++) {
             int v = sc.nextInt();
             int t = sc.nextInt();
