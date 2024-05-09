@@ -10,7 +10,7 @@ public class Main {
         
         // Read movement information for A
         int totalTimeA = 0;
-        int[] arrA = new int[N * 1000];
+        int[] arrA = new int[1000000]; // Max size assuming each movement takes 1000 time units
         for(int i = 0; i < N; i++) {
             int v = sc.nextInt();
             int t = sc.nextInt();
@@ -21,7 +21,7 @@ public class Main {
         
         // Read movement information for B
         int totalTimeB = 0;
-        int[] arrB = new int[M * 1000];
+        int[] arrB = new int[1000000]; // Max size assuming each movement takes 1000 time units
         for(int i = 0; i < M; i++) {
             int v = sc.nextInt();
             int t = sc.nextInt();
