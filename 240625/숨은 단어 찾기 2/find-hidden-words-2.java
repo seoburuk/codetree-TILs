@@ -1,47 +1,30 @@
 import java.util.Scanner;
 
 public class Main {
-    public static final int WORD_LENGTH = 3;
-    public static final String TARGET_WORD = "LEE";
-
-    public static int[] dx = {1, 0, -1, 1, -1, 1, 0, -1}; // directions: right, down, left, up-right, up-left, down-right, down-left, up
-    public static int[] dy = {0, 1, 1, 1, 1, -1, -1, -1};
-
-    public static boolean inRange(int x, int y, int n, int m) {
-        return 0 <= x && x < n && 0 <= y && y < m;
-    }
-
-    public static boolean checkWord(char[][] board, int x, int y, int direction, int n, int m) {
-        for (int i = 0; i < WORD_LENGTH; i++) {
-            int nx = x + i * dx[direction];
-            int ny = y + i * dy[direction];
-            if (!inRange(nx, ny, n, m) || board[nx][ny] != TARGET_WORD.charAt(i)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+
         int n = sc.nextInt();
         int m = sc.nextInt();
-        sc.nextLine(); // consume newline
+        sc.nextLine(); // Consume the newline character
+
         char[][] board = new char[n][m];
 
-        // Read the board
         for (int i = 0; i < n; i++) {
             board[i] = sc.nextLine().toCharArray();
         }
 
         int countLEE = 0;
 
-        // Check for 'LEE' pattern
+        // Define the 8 possible directions (right, down, diagonal down-right, diagonal down-left, left, up, diagonal up-right, diagonal up-left)
+        int[] dx = {0, 1, 1, 1, 0, -1, -1, -1};
+        int[] dy = {1, 0, 1, -1, -1, 0, 1, -1};
+
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 if (board[i][j] == 'L') {
-                    for (int k = 0; k < 8; k++) {
-                        if (checkWord(board, i, j, k, n, m)) {
+                    for (int d = 0; d < 8; d++) {
+                        if (checkWord(board, i, j, dx[d], dy[d], n, m)) {
                             countLEE++;
                         }
                     }
@@ -50,5 +33,17 @@ public class Main {
         }
 
         System.out.println(countLEE);
+    }
+
+    public static boolean checkWord(char[][] board, int x, int y, int dx, int dy, int n, int m) {
+        String word = "LEE";
+        for (int k = 0; k < word.length(); k++) {
+            int nx = x + dx * k;
+            int ny = y + dy * k;
+            if (nx < 0 || ny < 0 || nx >= n || ny >= m || board[nx][ny] != word.charAt(k)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
