@@ -1,62 +1,43 @@
-import java.util.*;
+import java.util.Scanner;
 
 public class Main {
+    public static final int MAX_NUM = 10000;
+
+    public static int n, k;
+    public static int[] arr = new int[MAX_NUM + 1];
+    
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
-        int N = scanner.nextInt();
-        int K = scanner.nextInt();
-
-        // 사람들의 위치와 팻말 정보를 저장할 리스트
-        List<Person> people = new ArrayList<>();
-
-        for (int i = 0; i < N; i++) {
-            int position = scanner.nextInt();
-            char sign = scanner.next().charAt(0);
-            people.add(new Person(position, sign));
+        // 입력
+        n = sc.nextInt();
+        k = sc.nextInt();
+        for(int i = 0; i < n; i++) {
+            int x = sc.nextInt();
+            char c = sc.next().charAt(0);
+            
+            if(c == 'G')
+                arr[x] = 1;
+            else
+                arr[x] = 2;
         }
-
-        scanner.close();
-
-        // 최대 점수를 저장할 변수
-        int maxScore = 0;
-
-        // 모든 사람의 위치를 기준으로 구간 탐색
-        for (int i = 0; i < N; i++) {
-            int startPosition = people.get(i).position;
-            int endPosition = startPosition + K;
-
-            int currentScore = 0;
-
-            // 현재 구간 내에 포함된 사람들의 점수 계산
-            for (Person person : people) {
-                if (person.position >= startPosition && person.position <= endPosition) {
-                    if (person.sign == 'G') {
-                        currentScore += 1;
-                    } else if (person.sign == 'H') {
-                        currentScore += 2;
-                    }
-                }
-            }
-
-            // 최대 점수 갱신
-            if (currentScore > maxScore) {
-                maxScore = currentScore;
-            }
+        
+        // 슬라이딩 윈도우 기법으로 최대 구간 합 계산
+        int maxSum = 0;
+        int currentSum = 0;
+        
+        // 초기 윈도우 설정
+        for(int i = 0; i <= k; i++) {
+            currentSum += arr[i];
         }
-
-        // 결과 출력
-        System.out.println(maxScore);
-    }
-
-    // 사람의 위치와 팻말 정보를 저장할 클래스
-    static class Person {
-        int position;
-        char sign;
-
-        Person(int position, char sign) {
-            this.position = position;
-            this.sign = sign;
+        maxSum = currentSum;
+        
+        // 윈도우를 오른쪽으로 한 칸씩 이동하면서 구간 합 계산
+        for(int i = 1; i <= MAX_NUM - k; i++) {
+            currentSum = currentSum - arr[i - 1] + arr[i + k];
+            maxSum = Math.max(maxSum, currentSum);
         }
+        
+        System.out.println(maxSum);
     }
 }
