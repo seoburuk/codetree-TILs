@@ -13,7 +13,7 @@ public class Main {
         int a2 = sc.nextInt();
         int b2 = sc.nextInt();
         // 겹치지 않는
-        if((x2 < a1 || a2 < x1) && (b2 < y1 || y2 < b1)) {
+        if((x2 < a1 || a2 < x1) || (b2 < y1 || y2 < b1)) {
             System.out.print("nonoverlapping");
         } else {
             System.out.print("overlapping");
