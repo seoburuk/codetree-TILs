@@ -2,21 +2,25 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        // 여기에 코드를 작성해주세요.
-        Scanner sc= new Scanner(System.in);
-        int a = sc.nextInt();
-        int b = sc.nextInt();
-        int c = sc.nextInt();
-        int d = sc.nextInt();
+        Scanner sc = new Scanner(System.in);
+        int a = sc.nextInt(); // Start of interval A
+        int b = sc.nextInt(); // End of interval A
+        int c = sc.nextInt(); // Start of interval B
+        int d = sc.nextInt(); // End of interval B
 
-        if(b < c || a < d) {
-            int x, y = 0;
-        x = Math.min(a, c);
-        y = Math.max(b, d);
-        System.out.print(y-x);
+        // Calculate the cleaned area
+        if (b < c || d < a) {
+            // No overlap
+            int totalCleanedLength = (b - a) + (d - c);
+            System.out.println(totalCleanedLength);
         } else {
-            System.out.print(b-a+d-c);
+            // Overlap exists
+            int start = Math.min(a, c);
+            int end = Math.max(b, d);
+            int totalCleanedLength = end - start;
+            System.out.println(totalCleanedLength);
         }
         
+        sc.close();
     }
 }
