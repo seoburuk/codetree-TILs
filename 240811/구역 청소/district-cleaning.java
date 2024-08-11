@@ -9,9 +9,14 @@ public class Main {
         int c = sc.nextInt();
         int d = sc.nextInt();
 
-        int x, y = 0;
+        if(b < c || a < d) {
+            int x, y = 0;
         x = Math.min(a, c);
         y = Math.max(b, d);
         System.out.print(y-x);
+        } else {
+            System.out.print(b-a+d-c);
+        }
+        
     }
 }
