@@ -16,8 +16,8 @@ public class Main {
             int currentEnd = 100;
             for(int j = 0; j < n; j++) {
                 if(i == j) continue;
-                currentStart = Math.max(x[i][0], currentStart);
-                currentEnd = Math.min(x[i][1], currentEnd);
+                currentStart = Math.max(x[j][0], currentStart);
+                currentEnd = Math.min(x[j][1], currentEnd);
 
                 if(currentEnd >= currentStart) {
                     System.out.print("Yes");
