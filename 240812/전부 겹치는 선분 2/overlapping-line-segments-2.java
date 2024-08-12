@@ -4,42 +4,32 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        int[][] segments = new int[n][2];
+        int[][] x = new int[n][2];
         
-        for (int i = 0; i < n; i++) {
-            segments[i][0] = sc.nextInt();
-            segments[i][1] = sc.nextInt();
+        for(int i = 0; i < n; i++) {
+            x[i][0] = sc.nextInt();
+            x[i][1] = sc.nextInt();
         }
-        
-        // Calculate the global maxStart and minEnd
-        int globalMaxStart = Integer.MIN_VALUE;
-        int globalMinEnd = Integer.MAX_VALUE;
-        
-        for (int i = 0; i < n; i++) {
-            globalMaxStart = Math.max(globalMaxStart, segments[i][0]);
-            globalMinEnd = Math.min(globalMinEnd, segments[i][1]);
-        }
-        
-        // Check for each segment being removed
-        for (int i = 0; i < n; i++) {
-            int currentMaxStart = Integer.MIN_VALUE;
-            int currentMinEnd = Integer.MAX_VALUE;
-            
-            // Calculate maxStart and minEnd without segment i
-            for (int j = 0; j < n; j++) {
-                if (i == j) continue; // Skip the segment being "removed"
-                currentMaxStart = Math.max(currentMaxStart, segments[j][0]);
-                currentMinEnd = Math.min(currentMinEnd, segments[j][1]);
+
+        for(int i = 0; i < n; i++) {
+            int currentStart = 0;
+            int currentEnd = 100;
+
+            // n-1개의 선분으로 겹치는 구간을 계산
+            for(int j = 0; j < n; j++) {
+                if(i == j) continue;  // i번째 선분을 제거
+                
+                currentStart = Math.max(currentStart, x[j][0]);
+                currentEnd = Math.min(currentEnd, x[j][1]);
             }
-            
-            // Check if there is an overlapping region after removing segment i
-            if (currentMaxStart <= currentMinEnd) {
-                System.out.println("Yes");
+
+            // n-1개의 선분이 겹치는 구간이 존재하는지 확인
+            if(currentStart <= currentEnd) {
+                System.out.print("Yes");
                 return;
             }
         }
         
-        // If no such segment found
-        System.out.println("No");
+        System.out.print("No");
     }
 }
