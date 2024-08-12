@@ -2,29 +2,44 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        // 여기에 코드를 작성해주세요.
-        Scanner sc= new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        int[][] x = new int[n][2];
+        int[][] segments = new int[n][2];
         
-        for(int i = 0; i < n; i++) {
-            x[i][0] = sc.nextInt();
-            x[i][1] = sc.nextInt();
+        for (int i = 0; i < n; i++) {
+            segments[i][0] = sc.nextInt();
+            segments[i][1] = sc.nextInt();
         }
-        for(int i = 0; i < n; i++) {
-            int currentStart = 0;
-            int currentEnd = 100;
-            for(int j = 0; j < n; j++) {
-                if(i == j) continue;
-                currentStart = Math.max(x[j][0], currentStart);
-                currentEnd = Math.min(x[j][1], currentEnd);
-
-                if(currentEnd >= currentStart) {
-                    System.out.print("Yes");
-                    return;
-                }
+        
+        // Calculate the global maxStart and minEnd
+        int globalMaxStart = Integer.MIN_VALUE;
+        int globalMinEnd = Integer.MAX_VALUE;
+        
+        for (int i = 0; i < n; i++) {
+            globalMaxStart = Math.max(globalMaxStart, segments[i][0]);
+            globalMinEnd = Math.min(globalMinEnd, segments[i][1]);
+        }
+        
+        // Check for each segment being removed
+        for (int i = 0; i < n; i++) {
+            int currentMaxStart = Integer.MIN_VALUE;
+            int currentMinEnd = Integer.MAX_VALUE;
+            
+            // Calculate maxStart and minEnd without segment i
+            for (int j = 0; j < n; j++) {
+                if (i == j) continue; // Skip the segment being "removed"
+                currentMaxStart = Math.max(currentMaxStart, segments[j][0]);
+                currentMinEnd = Math.min(currentMinEnd, segments[j][1]);
+            }
+            
+            // Check if there is an overlapping region after removing segment i
+            if (currentMaxStart <= currentMinEnd) {
+                System.out.println("Yes");
+                return;
             }
         }
-        System.out.print("No");
+        
+        // If no such segment found
+        System.out.println("No");
     }
 }
