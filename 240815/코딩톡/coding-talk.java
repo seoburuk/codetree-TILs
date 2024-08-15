@@ -2,31 +2,63 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        // 여기에 코드를 작성해주세요.
-        Scanner sc= new Scanner(System.in);
-        int n = sc.nextInt(); // Number of users in chat room
-        int m = sc.nextInt(); // Number of message 
-        int p = sc.nextInt(); // The specific message number we are intresed in 
-        char[] messages = new char[m];
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt(); // Number of users
+        int m = sc.nextInt(); // Number of messages
+        int p = sc.nextInt(); // Specific message number to check
+        
+        // Arrays to store message sender and unread count
+        char[] senders = new char[m];
         int[] unread = new int[m];
-
-        for(int i = 0; i < m; i++) {
-            messages[i] = sc.next().charAt(0); // The user who sent message
-            unread[i] = sc.nextInt(); // Number of users who havent read message
+        
+        // Read the input
+        for (int i = 0; i < m; i++) {
+            senders[i] = sc.next().charAt(0); // Sender of the message
+            unread[i] = sc.nextInt(); // Number of people who have not read the message
         }
-        Set<Character> possibleUnread = new HashSet<>();
-        for(char c = 'A'; c < 'A'+n; c++) {
-            possibleUnread.add(c);
+        
+        // Set of all possible users
+        Set<Character> allUsers = new HashSet<>();
+        for (char c = 'A'; c < 'A' + n; c++) {
+            allUsers.add(c);
         }
-        for(int i = p-1; i < m; i++) { // pth 
-            possibleUnread.remove(messages[i]);
+        
+        // Set of users who have definitely read the p-th message
+        Set<Character> readBy = new HashSet<>();
+        
+        // Process each message
+        for (int i = 0; i < m; i++) {
+            if (i < p - 1) {
+                // For messages before the p-th message, mark who must have read them
+                readBy.add(senders[i]);
+            } else if (i == p - 1) {
+                // The p-th message itself
+                // Everyone except the unread count has read it
+                int numUnread = unread[i];
+                if (numUnread > 0) {
+                    Set<Character> unreadUsers = new HashSet<>(allUsers);
+                    unreadUsers.remove(senders[i]);
+                    // Track possible unread users for this message
+                    // Possible unread users will be those who did not read the p-th message
+                    readBy = unreadUsers;
+                }
+            }
         }
+        
+        // Determine possible users who may not have read the p-th message
+        Set<Character> possibleUnread = new HashSet<>(allUsers);
+        possibleUnread.removeAll(readBy);
+        
+        // Prepare the result
         List<Character> resultList = new ArrayList<>(possibleUnread);
         Collections.sort(resultList);
-        if(resultList.size() == 0) {
+        
+        // Print the result
+        if (resultList.isEmpty()) {
             System.out.print("None");
         } else {
-            for(char c : resultList) {
+            for (char c : resultList) {
                 System.out.print(c + " ");
             }
         }
