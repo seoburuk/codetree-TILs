@@ -11,6 +11,7 @@ public class Main {
 
         int length1 = Math.abs(a-x) + Math.abs(b-y);
         int length2 = Math.abs(b-x) + Math.abs(a-y);
-        System.out.print(Math.min(length1,length2));
+        int length3 = Math.abs(a-b);
+        System.out.print(Math.min(length3,Math.min(length1,length2)));
     }
 }
