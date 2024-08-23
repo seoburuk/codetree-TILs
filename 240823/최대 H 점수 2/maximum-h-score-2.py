@@ -1,5 +1,3 @@
-import itertools
-
 def calculate_H_score(arr):
     arr.sort(reverse=True)
     H = 0
@@ -11,24 +9,18 @@ def calculate_H_score(arr):
     return H
 
 def max_H_score(N, L, arr):
-    unique_elements = set(arr)
-    if L == 0:
-        # L이 0일 경우 값을 증가시킬 수 없으므로, 단순히 수열의 H 점수를 계산한다.
-        return calculate_H_score(arr)
+    # 수열을 작은 값 순으로 정렬합니다.
+    arr.sort()
     
-    max_H = 0
-    
-    # 서로 다른 원소를 최대 L개 선택하여 1씩 증가시킬 수 있음
-    for to_increase in itertools.combinations(unique_elements, min(L, len(unique_elements))):
-        new_arr = arr.copy()
-        for num in to_increase:
-            for i in range(len(new_arr)):
-                if new_arr[i] == num:
-                    new_arr[i] += 1
-        # 이 경우의 H 점수 계산
-        max_H = max(max_H, calculate_H_score(new_arr))
-    
-    return max_H
+    # L번 기회를 사용하여 가능한 가장 작은 값들을 1씩 증가시킵니다.
+    for _ in range(L):
+        # 가장 작은 값을 찾아서 증가시킵니다.
+        arr[0] += 1
+        # 다시 정렬해서 가장 작은 값이 앞으로 오도록 합니다.
+        arr.sort()
+
+    # 최종적으로 계산된 배열의 최대 H 점수를 구합니다.
+    return calculate_H_score(arr)
 
 # 입력 받기
 N, L = map(int, input().split())
