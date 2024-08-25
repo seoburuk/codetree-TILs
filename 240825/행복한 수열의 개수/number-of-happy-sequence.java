@@ -55,6 +55,16 @@ public class Main {
             }
         }
 
+        // m이 1일 경우에는 연속된 수가 있는 경우 false를 반환
+        if (m == 1) {
+            for (int i = 1; i < sequence.length; i++) {
+                if (sequence[i] == sequence[i - 1]) {
+                    return false; // 연속된 수가 있으면 행복한 수열이 아님
+                }
+            }
+            return true; // 연속된 수가 없으면 행복한 수열
+        }
+
         return false;
     }
 }
