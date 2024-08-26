@@ -1,60 +1,58 @@
 import java.util.Scanner;
+import java.util.*;
 
 public class Main {
+    public static int[][] board = new int [200][200];
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        // 격자의 크기 n과 m 입력받기
         int n = sc.nextInt();
         int m = sc.nextInt();
 
-        // n * m 크기의 격자 입력받기
-        int[][] grid = new int[n][m];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                grid[i][j] = sc.nextInt();
+        
+
+        for(int i = 0 ; i < n ; i++){
+            for(int j = 0 ; j < m ; j++){
+                board[i][j] = sc.nextInt();
+            }
+        }
+        // 입력 파트
+        int max = 0;
+
+        for(int i = 0 ; i <= n-2 ; i++){
+            for(int j = 0 ; j <= m-2 ; j++){
+                max = Math.max(max, returnMax1(i, j));
             }
         }
 
-        int maxSum = 0;
-
-        // 모든 칸을 탐색하면서 최대 합 계산
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                // 1. 가로 막대 블럭 확인
-                if (j + 2 < m) {
-                    int sum = grid[i][j] + grid[i][j + 1] + grid[i][j + 2];
-                    maxSum = Math.max(maxSum, sum);
-                }
-
-                // 2. 세로 막대 블럭 확인
-                if (i + 2 < n) {
-                    int sum = grid[i][j] + grid[i + 1][j] + grid[i + 2][j];
-                    maxSum = Math.max(maxSum, sum);
-                }
-
-                // 3. L자 모양 블럭 확인 (4가지 방향)
-                if (i + 1 < n && j + 1 < m) {
-                    // L자 모양 (원래)
-                    int sum = grid[i][j] + grid[i][j + 1] + grid[i + 1][j];
-                    maxSum = Math.max(maxSum, sum);
-
-                    // L자 모양 (회전)
-                    sum = grid[i][j] + grid[i + 1][j] + grid[i + 1][j + 1];
-                    maxSum = Math.max(maxSum, sum);
-
-                    // L자 모양 (뒤집기)
-                    sum = grid[i + 1][j] + grid[i + 1][j + 1] + grid[i][j + 1];
-                    maxSum = Math.max(maxSum, sum);
-
-                    // L자 모양 (반대 회전)
-                    sum = grid[i][j] + grid[i + 1][j] + grid[i][j + 1];
-                    maxSum = Math.max(maxSum, sum);
-                }
+        for(int i = 0 ; i < n ; i++){                   // 1*3 모양
+            for(int j = 0 ; j <= m-3 ; j++){
+                max = Math.max(max, (board[i][j] + board[i][j+1] + board[i][j+2]));
             }
         }
 
-        // 최대 합 출력
-        System.out.println(maxSum);
+        for(int j = 0 ; j < m ; j++){                   // 3*1 모양
+            for(int i = 0 ; i <= n-3 ; i++){
+                max = Math.max(max, (board[i][j] + board[i+1][j] + board[i+2][j]));
+            }
+        }
+
+        System.out.print(max);
+    }
+
+    public static int returnMax1 (int x, int y){ // 첫 번째 블록에서의 최대값 반환
+        int maxSum = (board[x][y] + board[x+1][y] + board[x][y+1] + board[x+1][y+1]);
+        int answer = 0;
+        for(int i = x ; i < x+2 ; i++){
+            for(int j = y ; j < y+2 ; j++){
+                int nowSum = maxSum - board[i][j];
+                answer = Math.max(answer, nowSum);
+            }
+        }
+        return answer;
     }
 }
+
+// 첫 번째 블록을 자유롭게 회전하거나 뒤집을 수 있다 -> 어차피 최대 결과를 출력하는 것이 목표이기 때문에, 2*2영역의 총합에서 한 개씩 빼면서 나오는 최대값을 구하면 됨.
+// 두 번째 블록을 자유롭게 회전하거나 뒤집을 수 있다 -> 어차피 1*3 아니면 3*1임.
