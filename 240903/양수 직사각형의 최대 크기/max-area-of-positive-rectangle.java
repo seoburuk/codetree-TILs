@@ -20,7 +20,8 @@ public class Main {
                     for(int y2 = y1; y2 <m; y2++) {
                         if(isPositive(grid, x1, y1, x2, y2)) {
                             int size = (x2-x1+1) *  (y2 - y1 + 1);
-                            if(size > maxSize) maxSize = size;
+                            maxSize = Math.max(maxSize, size);
+                            
                         }
                     }
                 }
